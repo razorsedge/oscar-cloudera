@@ -7,11 +7,11 @@ vms:
 - name: centos59
   box: centos-59-x64-vbox4210-nocm
   roles:
-  - pe-puppet-agent
+  - centos
 - name: centos64
   box: centos-64-x64-vbox4210-nocm
   roles:
-  - pe-puppet-agent
+  - centos
 - name: debian6
   box: debian-607-x64-vbox4210-nocm
   roles:
@@ -19,7 +19,7 @@ vms:
 - name: sles11
   box: sles-11sp1-x64-vbox4210-nocm
   roles:
-  - pe-puppet-agent
+  - sles
 - name: ubuntu1004
   box: ubuntu-server-10044-x64-vbox4210-nocm
   roles:

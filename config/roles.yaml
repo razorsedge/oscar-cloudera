@@ -3,17 +3,64 @@ roles:
   pe-puppet-master:
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
+    forwarded_ports:
+      - {guest: 443, host: 8443}
+      - {guest: 7180, host: 7180}
+    provider:
+      type: virtualbox
+      customize:
+        - [modifyvm, !ruby/sym id, '--memory', 4096]
+    provisioners:
+      - type: shell
+        inline: "chkconfig iptables off;service iptables stop"
+      - type: shell
+        inline: "sed -i -e 's|^mirrorlist=|#mirrorlist=|' -e 's|^#baseurl=|baseurl=|' /etc/yum.repos.d/CentOS-Base.repo"
+      - {type: hosts}
+      - {type: pe_bootstrap, role: !ruby/sym master}
+#      - type: shell
+#        inline: |-
+#          /opt/puppet/bin/puppet apply \
+#            --confdir=/root/puppet \
+#            --ssldir=/etc/puppetlabs/puppet/ssl \
+#            --hiera_config=/root/puppet/hiera.yaml \
+#            --modulepath=/root/puppet/modules \
+#            --exec 'include role::puppetmaster'
+    synced_folders:
+      - {host_path: 'puppet', guest_path: '/root/puppet'}
+
+  pe-puppet-agent:
+    private_networks:
+      - {ip: '0.0.0.0', auto_network: true}
     provider:
       type: virtualbox
       customize:
         - [modifyvm, !ruby/sym id, '--memory', 1024]
     provisioners:
       - {type: hosts}
-      - {type: pe_bootstrap, role: !ruby/sym master}
+      - {type: pe_bootstrap}
 
-  pe-puppet-agent:
+  centos:
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
+    provider:
+      type: virtualbox
+      customize:
+        - [modifyvm, !ruby/sym id, '--memory', 1024]
     provisioners:
+      - type: shell
+        inline: "sed -i -e 's|^mirrorlist=|#mirrorlist=|' -e 's|^#baseurl=|baseurl=|' /etc/yum.repos.d/CentOS-Base.repo"
+      - {type: hosts}
+      - {type: pe_bootstrap}
+
+  sles:
+    private_networks:
+      - {ip: '0.0.0.0', auto_network: true}
+    provider:
+      type: virtualbox
+      customize:
+        - [modifyvm, !ruby/sym id, '--memory', 1024]
+    provisioners:
+      - type: shell
+        inline: "sed -i -e 's|baseurl=.*|baseurl=http://demeter.uni-regensburg.de/SLES11SP1-x64/DVD1/|' /etc/zypp/repos.d/SUSE-Linux-Enterprise-Server-11-SP1\\\ 11.1.1-1.152.repo"
       - {type: hosts}
       - {type: pe_bootstrap}
