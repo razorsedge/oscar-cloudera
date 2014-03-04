@@ -16,6 +16,10 @@ vms:
   box: debian-607-x64-vbox4210-nocm
   roles:
   - pe-puppet-agent
+- name: debian7
+  box: debian-70rc1-x64-vbox4210-nocm
+  roles:
+  - pe-puppet-agent
 - name: sles11
   box: sles-11sp1-x64-vbox4210-nocm
   roles:
