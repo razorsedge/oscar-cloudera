@@ -1,4 +1,4 @@
-class { 'profile::cloudera::server4+mysql':
+class { 'profile::cloudera::server4_mysql':
   class { 'cloudera::cm::repo': } ->
   class { 'cloudera::java': } ->
   class { 'cloudera::cm::server':
