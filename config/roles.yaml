@@ -19,7 +19,7 @@ roles:
       - {type: hosts, autoconfigure: true}
       - {type: pe_bootstrap, role: !ruby/sym master}
       - type: shell
-        inline: "/opt/puppet/bin/puppet config set modulepath /modules:/etc/puppetlabs/puppet/modules:/opt/puppet/share/puppet/modules --section main; cp -p /vagrant/pe_license.key /etc/puppetlabs/license.key"
+        inline: "/vagrant/pe_configure.sh"
 #      - type: shell
 #        inline: |-
 #          /opt/puppet/bin/puppet apply \
