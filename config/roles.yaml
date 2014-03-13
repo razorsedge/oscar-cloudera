@@ -5,18 +5,21 @@ roles:
       - {ip: '0.0.0.0', auto_network: true}
     forwarded_ports:
       - {guest: 443, host: 8443}
-      - {guest: 7180, host: 7180}
+#      - {guest: 7180, host: 7180}
     provider:
       type: virtualbox
       customize:
-        - [modifyvm, !ruby/sym id, '--memory', 4096]
+#        - [modifyvm, !ruby/sym id, '--memory', 4096]
+        - [modifyvm, !ruby/sym id, '--memory', 2048]
     provisioners:
       - type: shell
         inline: "chkconfig iptables off;service iptables stop"
       - type: shell
         inline: "sed -i -e 's|^mirrorlist=|#mirrorlist=|' -e 's|^#baseurl=|baseurl=|' /etc/yum.repos.d/CentOS-Base.repo"
-      - {type: hosts}
+      - {type: hosts, autoconfigure: true}
       - {type: pe_bootstrap, role: !ruby/sym master}
+      - type: shell
+        inline: "/opt/puppet/bin/puppet config set modulepath /modules:/etc/puppetlabs/puppet/modules:/opt/puppet/share/puppet/modules --section main"
 #      - type: shell
 #        inline: |-
 #          /opt/puppet/bin/puppet apply \
@@ -26,41 +29,55 @@ roles:
 #            --modulepath=/root/puppet/modules \
 #            --exec 'include role::puppetmaster'
     synced_folders:
-      - {host_path: 'puppet', guest_path: '/root/puppet'}
+      - {host_path: 'puppet/modules',   guest_path: '/modules'}
+      - {host_path: 'puppet/manifests', guest_path: '/manifests'}
+      - {host_path: 'puppet/hieradata', guest_path: '/hieradata'}
 
   pe-puppet-agent:
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
+    forwarded_ports:
+      - {guest: 7180, host: 7180, auto_correct: true}
     provider:
       type: virtualbox
       customize:
-        - [modifyvm, !ruby/sym id, '--memory', 1024]
+        - [modifyvm, !ruby/sym id, '--memory', 2048]
     provisioners:
-      - {type: hosts}
+      - {type: hosts, autoconfigure: true}
       - {type: pe_bootstrap}
 
   centos:
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
+    forwarded_ports:
+      - {guest: 7180, host: 7180, auto_correct: true}
     provider:
       type: virtualbox
       customize:
-        - [modifyvm, !ruby/sym id, '--memory', 1024]
+        - [modifyvm, !ruby/sym id, '--memory', 2048]
     provisioners:
       - type: shell
+        inline: "chkconfig iptables off;service iptables stop;setenforce Permissive;true"
+      - type: shell
         inline: "sed -i -e 's|^mirrorlist=|#mirrorlist=|' -e 's|^#baseurl=|baseurl=|' /etc/yum.repos.d/CentOS-Base.repo"
-      - {type: hosts}
+      - {type: hosts, autoconfigure: true}
       - {type: pe_bootstrap}
 
   sles:
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
+    forwarded_ports:
+      - {guest: 7180, host: 7180, auto_correct: true}
     provider:
       type: virtualbox
       customize:
-        - [modifyvm, !ruby/sym id, '--memory', 1024]
+        - [modifyvm, !ruby/sym id, '--memory', 2048]
     provisioners:
       - type: shell
         inline: "sed -i -e 's|baseurl=.*|baseurl=http://demeter.uni-regensburg.de/SLES11SP1-x64/DVD1/|' /etc/zypp/repos.d/SUSE-Linux-Enterprise-Server-11-SP1\\\ 11.1.1-1.152.repo"
-      - {type: hosts}
+      - {type: hosts, autoconfigure: true}
       - {type: pe_bootstrap}
+      - type: shell
+        inline: "/root/repo/upgrade.sh"
+    synced_folders:
+      - {host_path: 'sles', guest_path: '/root/repo'}
