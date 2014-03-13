@@ -1,0 +1,8 @@
+[SUSE-Linux-Enterprise-Server-11-SP2 11.2.1-1.234]
+name=SUSE-Linux-Enterprise-Server-11-SP2 11.2.1-1.234
+enabled=1
+autorefresh=1
+baseurl=http://demeter.uni-regensburg.de/SLES11SP2-x64/DVD1/
+path=/
+type=yast2
+keeppackages=0

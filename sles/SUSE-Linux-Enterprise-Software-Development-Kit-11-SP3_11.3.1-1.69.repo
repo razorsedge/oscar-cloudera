@@ -1,0 +1,8 @@
+[SUSE-Linux-Enterprise-Software-Development-Kit-11-SP3 11.3.1-1.69]
+name=SUSE-Linux-Enterprise-Software-Development-Kit-11-SP3 11.3.1-1.69
+enabled=1
+autorefresh=1
+baseurl=http://demeter.uni-regensburg.de/SLE11SP3-SDK-x64/DVD1/
+path=/
+type=yast2
+keeppackages=0

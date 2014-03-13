@@ -1,0 +1,8 @@
+[SUSE-Linux-Enterprise-Server-11-SP3 11.3.1-1.138]
+name=SUSE-Linux-Enterprise-Server-11-SP3 11.3.1-1.138
+enabled=1
+autorefresh=1
+baseurl=http://demeter.uni-regensburg.de/SLES11SP3-x64/DVD1/
+path=/
+type=yast2
+keeppackages=0
