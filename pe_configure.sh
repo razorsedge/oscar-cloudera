@@ -22,3 +22,13 @@ node:addgroup[debian6,debian]
 node:add[debian7,debian,,skip] \
 node:addgroup[debian7,debian]
 
+/opt/puppet/bin/puppet module install spiette/selinux
+/opt/puppet/bin/rake -f /opt/puppet/share/puppet-dashboard/Rakefile RAILS_ENV=production \
+nodeclass:add[selinux,skip] \
+nodegroup:add[rhel,selinux,skip] \
+nodegroup:addclassparam[rhel,selinux,mode,disabled] \
+node:add[centos59,rhel,,skip] \
+node:addgroup[centos59,rhel] \
+node:add[centos64,rhel,,skip] \
+node:addgroup[centos64,rhel]
+
