@@ -1,0 +1,33 @@
+[submodule "puppet/modules/cloudera"]
+	path = puppet/modules/cloudera
+	url = https://github.com/razorsedge/puppet-cloudera.git
+[submodule "puppet/modules/stdlib"]
+	path = puppet/modules/stdlib
+	url = https://github.com/puppetlabs/puppetlabs-stdlib.git
+[submodule "puppet/modules/mysql"]
+	path = puppet/modules/mysql
+	url = https://github.com/puppetlabs/puppetlabs-mysql.git
+[submodule "puppet/modules/concat"]
+	path = puppet/modules/concat
+	url = https://github.com/puppetlabs/puppetlabs-concat.git
+[submodule "puppet/modules/java_ks"]
+	path = puppet/modules/java_ks
+	url = https://github.com/puppetlabs/puppetlabs-java_ks.git
+[submodule "puppet/modules/apt"]
+	path = puppet/modules/apt
+	url = https://github.com/puppetlabs/puppetlabs-apt.git
+[submodule "puppet/modules/postgresql"]
+	path = puppet/modules/postgresql
+	url = https://github.com/puppetlabs/puppetlabs-postgresql.git
+[submodule "puppet/modules/staging"]
+	path = puppet/modules/staging
+	url = https://github.com/nanliu/puppet-staging.git
+[submodule "puppet/modules/epel"]
+	path = puppet/modules/epel
+	url = https://github.com/stahnma/puppet-module-epel.git
+[submodule "puppet/modules/zypprepo"]
+	path = puppet/modules/zypprepo
+	url = https://github.com/deadpoint/puppet-zypprepo.git
+[submodule "puppet/modules/augeasproviders"]
+	path = puppet/modules/augeasproviders
+	url = https://github.com/hercules-team/augeasproviders.git
