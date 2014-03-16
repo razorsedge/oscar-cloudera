@@ -1,45 +1,57 @@
-This is the test harness for creating the certification environment for
-Cloudera's C5 validation.
+This is the test harness for creating the certification environment for Cloudera's C5 validation of the [razorsedge/cloudera](https://forge.puppetlabs.com/razorsedge/cloudera/) Puppet module on [Puppet Enterprise](https://puppetlabs.com/puppet/puppet-enterprise).
 
-Requires [Vagrant](http://www.vagrantup.com/) and [Oscar](https://github.com/adrienthebo/oscar).
+Requires [Vagrant](http://www.vagrantup.com/) and [Oscar](https://github.com/adrienthebo/oscar).  Also requires a [caching proxy](http://www.squid-cache.org/) at hostname "proxy" and port "3128" as this setup will pull down over 3GB of Cloudera and OS packages.
 
-These are the commands that created the initial configuration in this git repo.
+This setup will require a machine with several CPUs (8), 18GB of RAM, and 35GB disk. Plan on going out for lunch after firing off `vagrant up` as there will be 4.6GB of baseboxen and PE installers to download.
 
+# Setup
+Clone the git repo.
 ```
-vagrant oscar init
-
-vagrant oscar init-vms --pe-version=3.2.0 \
---master master=centos-64-x64-vbox4210-nocm \
---agent centos59=centos-59-x64-vbox4210-nocm \
---agent centos64=centos-64-x64-vbox4210-nocm \
---agent debian6=debian-607-x64-vbox4210-nocm \
---agent debian7=debian-70rc1-x64-vbox4210-nocm \
---agent sles11=sles-11sp1-x64-vbox4210-nocm \
---agent ubuntu1004=ubuntu-server-10044-x64-vbox4210-nocm \
---agent ubuntu1204=ubuntu-server-12042-x64-vbox4210-nocm
+git clone https://github.com/razorsedge/oscar-cloudera.git cloudera
+cd cloudera
+git submodule init
+git submodule update
 ```
 
-```
-git clone https://github.com/razorsedge/oscar-cloudera.git .
-```
+# Add License Keys
+Install the PE license key in file `pe_license.key`.  Install the CM license key in file `puppetlabs-c5_dev_cloudera_enterprise_license.txt`.
 
-Install PE license key in file pe_license.key.
-Install CM license key in file puppetlabs-c5_dev_cloudera_enterprise_license.txt.
-
+# Fire Up the VMs
 ```
 vagrant up --no-provision
 vagrant provision
 ```
 
-Add fqdn to /etc/hosts:
-sles11
-centos59
-
+# Prepare Puppet
 Log in to the Puppet Console.
-Add each host to the Group `agent5_server`.
+Add each host to the Group `agent5_server` or whichever profile is being tested.
 
+# Install License Keys
 Log in to each VM and install the CM license key.
 ```
-/vagrant/cloudera_enterprise_license.sh
+vagrant ssh centos59
+sudo /vagrant/cloudera_enterprise_license.sh
+sudo tar zcvf /vagrant/puppetlabs-razorsedge_cloudera-2.0.0-c5_`hostname`.tar.gz /var/log
 ```
+
+# Connect to Cloudera Manager
+Connect to each Cloudera Manager Server instance to send a diagnostic bundle.
+
+- http://vagrant_server:7180/
+- http://vagrant_server:2202/
+- http://vagrant_server:2204/
+- http://vagrant_server:2206/
+- http://vagrant_server:2208/
+- http://vagrant_server:2210/
+- http://vagrant_server:2212/
+
+# License
+
+Please see LICENSE file.
+
+# Copyright
+
+Copyright (C) 2014 Mike Arnold <mike@razorsedge.org>
+
+[razorsedge/oscar-cloudera on GitHub](https://github.com/razorsedge/oscar-cloudera)
 
