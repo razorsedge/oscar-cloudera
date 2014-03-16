@@ -19,6 +19,8 @@ roles:
       - {type: hosts, autoconfigure: true}
       - {type: pe_bootstrap, role: !ruby/sym master}
       - type: shell
+        inline: "sed -i -e '/^127/!s|'`hostname -s`'$|'`hostname -s`' '`facter fqdn`'|' /etc/hosts"
+      - type: shell
         inline: "/vagrant/pe_configure.sh"
 #      - type: shell
 #        inline: |-
@@ -45,6 +47,8 @@ roles:
     provisioners:
       - {type: hosts, autoconfigure: true}
       - {type: pe_bootstrap}
+      - type: shell
+        inline: "sed -i -e '/^127/!s|'`hostname -s`'$|'`hostname -s`' '`facter fqdn`'|' /etc/hosts"
 
   centos:
     private_networks:
@@ -62,6 +66,8 @@ roles:
         inline: "sed -i -e 's|^mirrorlist=|#mirrorlist=|' -e 's|^#baseurl=|baseurl=|' /etc/yum.repos.d/CentOS-Base.repo"
       - {type: hosts, autoconfigure: true}
       - {type: pe_bootstrap}
+      - type: shell
+        inline: "sed -i -e '/^127/!s|'`hostname -s`'$|'`hostname -s`' '`facter fqdn`'|' /etc/hosts"
 
   sles:
     private_networks:
@@ -71,12 +77,14 @@ roles:
     provider:
       type: virtualbox
       customize:
-        - [modifyvm, !ruby/sym id, '--memory', 2048]
+        - [modifyvm, !ruby/sym id, '--memory', 3072]
     provisioners:
       - type: shell
         inline: "sed -i -e 's|baseurl=.*|baseurl=http://demeter.uni-regensburg.de/SLES11SP1-x64/DVD1/|' /etc/zypp/repos.d/SUSE-Linux-Enterprise-Server-11-SP1\\\ 11.1.1-1.152.repo"
       - {type: hosts, autoconfigure: true}
       - {type: pe_bootstrap}
+      - type: shell
+        inline: "sed -i -e '/^127/!s|'`hostname -s`'$|'`hostname -s`' '`facter fqdn`'|' /etc/hosts"
       - type: shell
         inline: "/root/repo/upgrade.sh"
     synced_folders:
