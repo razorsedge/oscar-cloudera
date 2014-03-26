@@ -1,6 +1,25 @@
 This is the test harness for creating the certification environment for Cloudera's C5 validation of the [razorsedge/cloudera](https://forge.puppetlabs.com/razorsedge/cloudera/) Puppet module on [Puppet Enterprise](https://puppetlabs.com/puppet/puppet-enterprise).
 
-Requires [Vagrant](http://www.vagrantup.com/) and [Oscar](https://github.com/adrienthebo/oscar).  Also requires a [caching proxy](http://www.squid-cache.org/) at hostname "proxy" and port "3128" as this setup will pull down over 3GB of Cloudera and OS packages.
+Requires [Vagrant](http://www.vagrantup.com/) and [Oscar](https://github.com/adrienthebo/oscar).  Also requires a [caching proxy](http://www.squid-cache.org/) at hostname "proxy" and port "3128" as this setup will pull down over 3GB of Cloudera and OS packages.  Edit `cloudera_enterprise_license.sh` if this is not what you want and do not run the next snippet of code.
+
+```
+vagrant plugin install vagrant-proxyconf
+
+# This will overwrite your global Vagrantfile.  Be careful if this is not
+# what you want.
+cat <<EOF >~/.vagrant.d/Vagrantfile
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  # https://github.com/tmatilai/vagrant-proxyconf
+  if defined?(VagrantPlugins::ProxyConf)
+    config.proxy.http = "http://proxy:3128/"
+    config.proxy.https = "http://proxy:3128/"
+    config.proxy.no_proxy = "localhost,127.0.0.1,master"
+  end
+end
+EOF```
 
 This setup will require a machine with several CPUs (8), 18GB of RAM, and 35GB disk. Plan on going out for lunch after firing off `vagrant up` as there will be 4.6GB of baseboxen and PE installers to download.
 

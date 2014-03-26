@@ -19,7 +19,7 @@ roles:
       - {type: hosts, autoconfigure: true}
       - {type: pe_bootstrap, role: !ruby/sym master}
       - type: shell
-        inline: "sed -i -e '/^127/!s|'`hostname -s`'$|'`hostname -s`' '`facter fqdn`'|' /etc/hosts"
+        inline: "sed -i -e '/^127/!s|'`hostname -s`'$|'`hostname -s`' '`/opt/puppet/bin/facter fqdn`'|' /etc/hosts"
       - type: shell
         inline: "/vagrant/pe_configure.sh"
 #      - type: shell
@@ -32,8 +32,8 @@ roles:
 #            --exec 'include role::puppetmaster'
     synced_folders:
       - {host_path: 'puppet/modules',   guest_path: '/modules'}
-      - {host_path: 'puppet/manifests', guest_path: '/manifests'}
-      - {host_path: 'puppet/hieradata', guest_path: '/hieradata'}
+#      - {host_path: 'puppet/manifests', guest_path: '/manifests'}
+#      - {host_path: 'puppet/hieradata', guest_path: '/hieradata'}
 
   pe-puppet-agent:
     private_networks:
@@ -48,7 +48,7 @@ roles:
       - {type: hosts, autoconfigure: true}
       - {type: pe_bootstrap}
       - type: shell
-        inline: "sed -i -e '/^127/!s|'`hostname -s`'$|'`hostname -s`' '`facter fqdn`'|' /etc/hosts"
+        inline: "sed -i -e '/^127/!s|'`hostname -s`'$|'`hostname -s`' '`/opt/puppet/bin/facter fqdn`'|' /etc/hosts"
 
   centos:
     private_networks:
@@ -67,7 +67,7 @@ roles:
       - {type: hosts, autoconfigure: true}
       - {type: pe_bootstrap}
       - type: shell
-        inline: "sed -i -e '/^127/!s|'`hostname -s`'$|'`hostname -s`' '`facter fqdn`'|' /etc/hosts"
+        inline: "sed -i -e '/^127/!s|'`hostname -s`'$|'`hostname -s`' '`/opt/puppet/bin/facter fqdn`'|' /etc/hosts"
 
   sles:
     private_networks:
@@ -84,7 +84,7 @@ roles:
       - {type: hosts, autoconfigure: true}
       - {type: pe_bootstrap}
       - type: shell
-        inline: "sed -i -e '/^127/!s|'`hostname -s`'$|'`hostname -s`' '`facter fqdn`'|' /etc/hosts"
+        inline: "sed -i -e '/^127/!s|'`hostname -s`'$|'`hostname -s`' '`/opt/puppet/bin/facter fqdn`'|' /etc/hosts"
       - type: shell
         inline: "/root/repo/upgrade.sh"
     synced_folders:

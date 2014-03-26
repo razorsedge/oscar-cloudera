@@ -18,7 +18,7 @@ nodegroup:add[agent5_noparcels_gplextras_cdh4,profile::cloudera::agent5_noparcel
 nodeclass:add[locales,skip] \
 nodegroup:add[debian,locales,skip] \
 node:add[debian6,debian,,skip] \
-node:addgroup[debian6,debian]
+node:addgroup[debian6,debian] \
 node:add[debian7,debian,,skip] \
 node:addgroup[debian7,debian]
 
