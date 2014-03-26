@@ -19,7 +19,8 @@ Vagrant.configure("2") do |config|
     config.proxy.no_proxy = "localhost,127.0.0.1,master"
   end
 end
-EOF```
+EOF
+```
 
 This setup will require a machine with several CPUs (8), 18GB of RAM, and 35GB disk. Plan on going out for lunch after firing off `vagrant up` as there will be 4.6GB of baseboxen and PE installers to download.
 
