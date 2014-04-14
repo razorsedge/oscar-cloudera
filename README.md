@@ -1,6 +1,6 @@
 This is the test harness for creating the certification environment for Cloudera's C5 validation of the [razorsedge/cloudera](https://forge.puppetlabs.com/razorsedge/cloudera/) Puppet module on [Puppet Enterprise](https://puppetlabs.com/puppet/puppet-enterprise).
 
-Requires [Vagrant](http://www.vagrantup.com/) and [Oscar](https://github.com/adrienthebo/oscar).  Also requires a [caching proxy](http://www.squid-cache.org/) at hostname "proxy" and port "3128" as this setup will pull down over 3GB of Cloudera and OS packages.  If this is not what you want, then edit `cloudera_enterprise_license.sh` and do not run the next snippet of code.
+Requires [Vagrant](http://www.vagrantup.com/) and [Oscar](https://github.com/adrienthebo/oscar).  Also requires a [caching proxy](http://www.squid-cache.org/) at hostname "proxy" and port "3128" as this setup will pull down over 3GB of Cloudera and OS packages.  If this is not what you want, then edit `cloudera_enterprise_license.sh`, and `sles/upgrade.sh` and do not run the next snippet of code.
 
 ```
 vagrant plugin install vagrant-proxyconf

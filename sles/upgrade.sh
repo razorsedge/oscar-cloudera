@@ -1,6 +1,13 @@
 #!/bin/bash
+USE_PROXY=y
+
 if [ -f /.vagrant1 ]; then exit 0; fi
-echo '--proxy=http://proxy:3128/' >/root/.curlrc
+if [ "$USE_PROXY" == "y" ]; then
+  sed -e '/^PROXY_ENABLED=/s|=.*|="yes"|' \
+      -e '/^HTTP_PROXY=/s|=.*|="http://proxy:3128/"|' \
+      -e '/^HTTPS_PROXY=/s|=.*|="http://proxy:3128/"|' \
+      -e '/^NO_PROXY=/s|=.*|="localhost,127.0.0.1,.razorsedge.org,master"|' -i /etc/sysconfig/proxy
+fi
 rm -f /etc/zypp/repos.d/*
 #zypper --non-interactive addrepo -f -r /root/repo/SUSE-Linux-Enterprise-Server-11-SP2_11.2.1-1.234.repo
 #zypper --non-interactive addrepo -f -r /root/repo/SUSE-Linux-Enterprise-Software-Development-Kit-11-SP2_11.2.1-1.66.repo
