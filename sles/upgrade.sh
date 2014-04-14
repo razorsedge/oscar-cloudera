@@ -1,5 +1,6 @@
 #!/bin/bash
 if [ -f /.vagrant1 ]; then exit 0; fi
+echo '--proxy=http://proxy:3128/' >/root/.curlrc
 rm -f /etc/zypp/repos.d/*
 #zypper --non-interactive addrepo -f -r /root/repo/SUSE-Linux-Enterprise-Server-11-SP2_11.2.1-1.234.repo
 #zypper --non-interactive addrepo -f -r /root/repo/SUSE-Linux-Enterprise-Software-Development-Kit-11-SP2_11.2.1-1.66.repo
