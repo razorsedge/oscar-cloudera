@@ -1,6 +1,6 @@
 This is the test harness for creating the certification environment for Cloudera's C5 validation of the [razorsedge/cloudera](https://forge.puppetlabs.com/razorsedge/cloudera/) Puppet module on [Puppet Enterprise](https://puppetlabs.com/puppet/puppet-enterprise).
 
-Requires [Vagrant](http://www.vagrantup.com/) and [Oscar](https://github.com/adrienthebo/oscar).  Also requires a [caching proxy](http://www.squid-cache.org/) at hostname "proxy" and port "3128" as this setup will pull down over 3GB of Cloudera and OS packages.  If this is not what you want, then edit `cloudera_enterprise_license.sh`, and `sles/upgrade.sh` and do not run the next snippet of code.
+Requires [Vagrant](http://www.vagrantup.com/) and [Oscar](https://github.com/adrienthebo/oscar).  Also requires a [caching proxy](http://www.squid-cache.org/) at hostname "proxy" and port "3128" as this setup will pull down over 3GB of Cloudera and OS packages.  If this is not what you want, then set `USE_PROXY=n` in `c5_configure.sh` and `sles/upgrade.sh` and do not run the next snippet of code.
 
 ```
 vagrant plugin install vagrant-proxyconf
@@ -34,7 +34,7 @@ git submodule update
 ```
 
 # Add License Keys
-Install the PE license key in file `pe_license.key`.  Install the CM license key in file `puppetlabs-c5_dev_cloudera_enterprise_license.txt`.
+Install the PE license key in file `pe_license.key`.  Install the CM license key in file `c5_license.key`.
 
 # Fire Up the VMs
 ```
@@ -50,7 +50,7 @@ Add each host to the Group `agent5_server` or whichever profile is being tested.
 Log in to each VM and install the CM license key.
 ```
 vagrant ssh centos59
-sudo /vagrant/cloudera_enterprise_license.sh
+sudo /vagrant/c5_configure.sh
 sudo tar zcvf /vagrant/puppetlabs-razorsedge_cloudera-2.0.0-c5_`hostname`.tar.gz /var/log
 ```
 

@@ -6,7 +6,7 @@ puppet resource package curl ensure=present
 
 echo "** Install the Cloudera Manager license key."
 curl -u "admin:admin" \
-  -F license=@/vagrant/puppetlabs-c5_dev_cloudera_enterprise_license.txt \
+  -F license=@/vagrant/c5_license.key \
   http://localhost:7180/api/v6/cm/license
 echo
 
