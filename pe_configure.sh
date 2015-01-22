@@ -27,8 +27,8 @@ node:addgroup[debian7,debian]
 nodeclass:add[selinux,skip] \
 nodegroup:add[rhel,selinux,skip] \
 nodegroup:addclassparam[rhel,selinux,mode,disabled] \
-node:add[centos59,rhel,,skip] \
-node:addgroup[centos59,rhel] \
-node:add[centos64,rhel,,skip] \
-node:addgroup[centos64,rhel]
+node:add[centos5,rhel,,skip] \
+node:addgroup[centos5,rhel] \
+node:add[centos6,rhel,,skip] \
+node:addgroup[centos6,rhel]
 

@@ -1,5 +1,6 @@
 #!/bin/bash
 USE_PROXY=y
+PATH=$PATH:/opt/puppet/bin
 
 echo "** Install curl."
 puppet resource package curl ensure=present

@@ -1,23 +1,25 @@
 ---
 vms:
 - name: master
-  box: centos-64-x64-vbox4210-nocm
+  box: puppetlabs/centos-6.5-64-nocm
   roles:
   - pe-puppet-master
-- name: centos59
-  box: centos-59-x64-vbox4210-nocm
+- name: centos5
+  box: puppetlabs/centos-5.11-64-nocm
   roles:
   - centos
-- name: centos64
-  box: centos-64-x64-vbox4210-nocm
+- name: centos6
+  box: puppetlabs/centos-6.5-64-nocm
   roles:
   - centos
 - name: debian6
   box: debian-607-x64-vbox4210-nocm
+#  box: puppetlabs/debian-6.0.9-64-nocm
   roles:
   - pe-puppet-agent
 - name: debian7
-  box: debian-70rc1-x64-vbox4210-nocm
+#  box: debian-70rc1-x64-vbox4210-nocm
+  box: puppetlabs/debian-7.6-64-nocm
   roles:
   - pe-puppet-agent
 - name: sles11
@@ -29,6 +31,10 @@ vms:
   roles:
   - pe-puppet-agent
 - name: ubuntu1204
-  box: ubuntu-server-12042-x64-vbox4210-nocm
+  box: puppetlabs/ubuntu-12.04-64-nocm
+  roles:
+  - pe-puppet-agent
+- name: ubuntu1404
+  box: puppetlabs/ubuntu-14.04-64-nocm
   roles:
   - pe-puppet-agent
