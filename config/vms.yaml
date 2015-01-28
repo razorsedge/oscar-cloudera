@@ -18,8 +18,8 @@ vms:
   roles:
   - pe-puppet-agent
 - name: debian7
-#  box: debian-70rc1-x64-vbox4210-nocm
-  box: puppetlabs/debian-7.6-64-nocm
+  box: debian-70rc1-x64-vbox4210-nocm
+#  box: puppetlabs/debian-7.6-64-nocm
   roles:
   - pe-puppet-agent
 - name: sles11
