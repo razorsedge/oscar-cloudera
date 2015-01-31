@@ -30,7 +30,7 @@ nodegroup:add[debian,locales,skip] \
 nodeclass:add[apt,skip] \
 nodegroup:addclass[debian,apt,skip] \
 nodegroup:addclassparam[debian,apt,proxy_host,proxy] \
-nodegroup:addclassparam[debian,apt,proxy_port,3128]
+nodegroup:addclassparam[debian,apt,proxy_port,3128] \
 node:add[debian6,debian,,skip] \
 node:addgroup[debian6,debian] \
 node:add[debian7,debian,,skip] \
