@@ -1,4 +1,4 @@
-class profile::cloudera::server4_embeded {
+class profile::cloudera::server4_embedded {
   class { 'cloudera::cm::repo': } ->
   class { 'cloudera::java': } ->
   class { 'cloudera::cm::server': }

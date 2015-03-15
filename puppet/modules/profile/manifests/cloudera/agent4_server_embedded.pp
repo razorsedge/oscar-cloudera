@@ -1,4 +1,4 @@
-class profile::cloudera::agent4_server_embeded {
+class profile::cloudera::agent4_server_embedded {
   class { '::cloudera':
     cm_server_host   => $::fqdn,
     cm_version       => '4',

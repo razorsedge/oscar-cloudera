@@ -17,10 +17,10 @@ nodeclass:add[profile::cloudera::agent4_server_postgresql,skip] \
 nodeclass:add[profile::cloudera::agent5_server_embedded,skip] \
 nodeclass:add[profile::cloudera::agent5_server_mysql,skip] \
 nodeclass:add[profile::cloudera::agent5_server_postgresql,skip] \
-nodegroup:add[cm4_embeded,profile::cloudera::agent4_server_embeded,skip] \
+nodegroup:add[cm4_embedded,profile::cloudera::agent4_server_embedded,skip] \
 nodegroup:add[cm4_mysql,profile::cloudera::agent4_server_mysql,skip] \
 nodegroup:add[cm4_postgresql,profile::cloudera::agent4_server_postgresql,skip] \
-nodegroup:add[cm5_embeded,profile::cloudera::agent5_server_embeded,skip] \
+nodegroup:add[cm5_embedded,profile::cloudera::agent5_server_embedded,skip] \
 nodegroup:add[cm5_mysql,profile::cloudera::agent5_server_mysql,skip] \
 nodegroup:add[cm5_postgresql,profile::cloudera::agent5_server_postgresql,skip]
 
@@ -71,10 +71,10 @@ else
   curl https://master:4433/classifier-api/v1/update-classes -d key=value --cert /etc/puppetlabs/puppet/ssl/certs/pe-internal-dashboard.pem --key /etc/puppetlabs/puppet/ssl/private_keys/pe-internal-dashboard.pem --cacert /etc/puppetlabs/puppet/ssl/certs/ca.pem -H "Content-Type: application/json"
 
   /opt/puppet/bin/rake -f /opt/puppet/share/puppet-dashboard/Rakefile RAILS_ENV=production \
-  nodegroup:add[cm4_embeded,profile::cloudera::agent4_server_embeded,skip] \
+  nodegroup:add[cm4_embedded,profile::cloudera::agent4_server_embedded,skip] \
   nodegroup:add[cm4_mysql,profile::cloudera::agent4_server_mysql,skip] \
   nodegroup:add[cm4_postgresql,profile::cloudera::agent4_server_postgresql,skip] \
-  nodegroup:add[cm5_embeded,profile::cloudera::agent5_server_embeded,skip] \
+  nodegroup:add[cm5_embedded,profile::cloudera::agent5_server_embedded,skip] \
   nodegroup:add[cm5_mysql,profile::cloudera::agent5_server_mysql,skip] \
   nodegroup:add[cm5_postgresql,profile::cloudera::agent5_server_postgresql,skip]
 
