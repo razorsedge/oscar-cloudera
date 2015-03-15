@@ -10,9 +10,10 @@ boxes:
   'sles-11sp1-x64-vbox4210-nocm': 'http://puppet-vagrant-boxes.puppetlabs.com/sles-11sp1-x64-vbox4210-nocm.box'
   'ubuntu-server-10044-x64-vbox4210-nocm': 'http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-10044-x64-vbox4210-nocm.box'
   'ubuntu-server-12042-x64-vbox4210-nocm': 'http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210-nocm.box'
-  'puppetlabs/ubuntu-12.04-64-nocm': 'https://vagrantcloud.com/puppetlabs/boxes/ubuntu-12.04-64-nocm/versions/1.0.0/providers/virtualbox.box'
-  'puppetlabs/ubuntu-14.04-64-nocm': 'https://vagrantcloud.com/puppetlabs/boxes/ubuntu-14.04-64-nocm/versions/1.0.0/providers/virtualbox.box'
-  'puppetlabs/centos-5.11-64-nocm': 'https://vagrantcloud.com/puppetlabs/boxes/centos-5.11-64-nocm/versions/1.0.0/providers/virtualbox.box'
-  'puppetlabs/centos-6.5-64-nocm': 'https://vagrantcloud.com/puppetlabs/boxes/centos-6.5-64-nocm/versions/1.0.0/providers/virtualbox.box'
-  'puppetlabs/debian-6.0.9-64-nocm': 'https://vagrantcloud.com/puppetlabs/boxes/debian-6.0.9-64-nocm/versions/0.3.0/providers/virtualbox.box'
-  'puppetlabs/debian-7.6-64-nocm': 'https://vagrantcloud.com/puppetlabs/boxes/debian-7.6-64-nocm/versions/1.0.0/providers/virtualbox.box'
+  'puppetlabs/ubuntu-12.04-64-nocm':
+  'puppetlabs/ubuntu-14.04-64-nocm':
+  'puppetlabs/centos-5.11-64-nocm':
+  'puppetlabs/centos-6.6-64-nocm':
+  'puppetlabs/centos-7.0-64-nocm':
+  'puppetlabs/debian-6.0.10-64-nocm':
+  'puppetlabs/debian-7.8-64-nocm':

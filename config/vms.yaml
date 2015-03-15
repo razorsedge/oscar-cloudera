@@ -1,7 +1,7 @@
 ---
 vms:
 - name: master
-  box: puppetlabs/centos-6.5-64-nocm
+  box: puppetlabs/centos-6.6-64-nocm
   roles:
   - pe-puppet-master
 - name: centos5
@@ -9,17 +9,15 @@ vms:
   roles:
   - centos
 - name: centos6
-  box: puppetlabs/centos-6.5-64-nocm
+  box: puppetlabs/centos-6.6-64-nocm
   roles:
   - centos
 - name: debian6
-  box: debian-607-x64-vbox4210-nocm
-#  box: puppetlabs/debian-6.0.9-64-nocm
+  box: puppetlabs/debian-6.0.10-64-nocm
   roles:
   - pe-puppet-agent
 - name: debian7
-  box: debian-70rc1-x64-vbox4210-nocm
-#  box: puppetlabs/debian-7.6-64-nocm
+  box: puppetlabs/debian-7.8-64-nocm
   roles:
   - pe-puppet-agent
 - name: sles11
