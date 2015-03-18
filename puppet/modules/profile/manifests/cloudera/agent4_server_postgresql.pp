@@ -15,7 +15,7 @@ class profile::cloudera::agent4_server_postgresql {
   }
   class { '::postgresql::server':
     postgres_password => 'TPSrep0rt!',
-#    encoding          => 'UTF-8',
+    encoding          => 'UTF-8',
 #    locale            => 'en_US.UTF-8',
 #    require            => $require,
   }
