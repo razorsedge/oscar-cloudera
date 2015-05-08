@@ -1,19 +1,31 @@
 ---
 roles:
-  pe-puppet-master:
+  base_4gb_ram:
+    provider:
+      type: virtualbox
+      customize:
+        - [modifyvm, !ruby/sym id, '--memory', 4096]
+
+  base_6gb_ram:
+    provider:
+      type: virtualbox
+      customize:
+        - [modifyvm, !ruby/sym id, '--memory', 6144]
+
+  base_2_cpus:
+    provider:
+      type: virtualbox
+      customize:
+        - [modifyvm, !ruby/sym id, '--hpet', "on"]
+        - [modifyvm, !ruby/sym id, '--ioapic', "on"]
+        - [modifyvm, !ruby/sym id, '--cpus', 2]
+
+  pe_puppet_master:
     private_networks:
       - {auto_network: true}
     forwarded_ports:
       - {guest: 443, host: 8443}
-    provider:
-      type: virtualbox
-      customize:
-        - [modifyvm, !ruby/sym id, '--memory', 2048]
     provisioners:
-      - type: shell
-        inline: "chkconfig iptables off;service iptables stop"
-      - type: shell
-        inline: "sed -i -e 's|^mirrorlist=|#mirrorlist=|' -e 's|^#baseurl=|baseurl=|' /etc/yum.repos.d/CentOS-Base.repo"
       - {type: hosts, autoconfigure: true, add_localhost_hostnames: false}
       - {type: pe_bootstrap, role: !ruby/sym master}
       - type: shell
@@ -21,61 +33,26 @@ roles:
       - type: shell
         inline: "/vagrant/pe_configure.sh"
     synced_folders:
-      - {host_path: 'puppet/modules',   guest_path: '/modules'}
+      - {host_path: 'puppet/modules', guest_path: '/modules'}
+      - {host_path: 'puppet/hieradata', guest_path: '/var/lib/hiera'}
 
-  pe-puppet-agent:
+  pe_puppet_agent:
     private_networks:
       - {auto_network: true}
-    forwarded_ports:
-      - {guest: 7180, host: 7180, auto_correct: true}
-    provider:
-      type: virtualbox
-      customize:
-        - [modifyvm, !ruby/sym id, '--memory', 2048]
     provisioners:
       - {type: hosts, autoconfigure: true, add_localhost_hostnames: false}
       - {type: pe_bootstrap}
       - type: shell
         inline: "sed -i -e '/^127/!s|'`hostname -s`'$|'`/opt/puppet/bin/facter fqdn`' '`hostname -s`'|' /etc/hosts"
 
-  centos:
-    private_networks:
-      - {auto_network: true}
+  cm_server:
     forwarded_ports:
       - {guest: 7180, host: 7180, auto_correct: true}
-    provider:
-      type: virtualbox
-      customize:
-        - [modifyvm, !ruby/sym id, '--memory', 2048]
+
+  centos:
     provisioners:
       - type: shell
         inline: "chkconfig iptables off;service iptables stop;setenforce Permissive;true"
       - type: shell
         inline: "sed -i -e 's|^mirrorlist=|#mirrorlist=|' -e 's|^#baseurl=|baseurl=|' /etc/yum.repos.d/CentOS-Base.repo"
-      - {type: hosts, autoconfigure: true, add_localhost_hostnames: false}
-      - {type: pe_bootstrap}
-      - type: shell
-        inline: "sed -i -e '/^127/!s|'`hostname -s`'$|'`/opt/puppet/bin/facter fqdn`' '`hostname -s`'|' /etc/hosts"
 
-  sles:
-    private_networks:
-      - {auto_network: true}
-    forwarded_ports:
-      - {guest: 7180, host: 7180, auto_correct: true}
-    provider:
-      type: virtualbox
-      customize:
-        - [modifyvm, !ruby/sym id, '--memory', 3072]
-    provisioners:
-      - type: shell
-        inline: "sed -i -e 's|baseurl=.*|baseurl=http://demeter.uni-regensburg.de/SLES11SP1-x64/DVD1/|' /etc/zypp/repos.d/SUSE-Linux-Enterprise-Server-11-SP1\\\ 11.1.1-1.152.repo"
-#      - type: shell
-#        inline: "sed -i -e 's|vagrantup.com||' /etc/sysconfig/network/config;sed -i -e 's| vagrantup.com||' /etc/resolv.conf"
-      - {type: hosts, autoconfigure: true, add_localhost_hostnames: false}
-      - {type: pe_bootstrap}
-      - type: shell
-        inline: "sed -i -e '/^127/!s|'`hostname -s`'$|'`/opt/puppet/bin/facter fqdn`' '`hostname -s`'|' /etc/hosts"
-      - type: shell
-        inline: "/root/repo/upgrade.sh"
-    synced_folders:
-      - {host_path: 'sles', guest_path: '/root/repo'}

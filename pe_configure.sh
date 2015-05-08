@@ -11,58 +11,33 @@ if [ "$pe_major_version" -eq 2 -o \( "$pe_major_version" -eq 3 -a "$pe_minor_ver
 /opt/puppet/bin/puppet config set modulepath /etc/puppetlabs/puppet/modules:/modules:/opt/puppet/share/puppet/modules --section main
 
 /opt/puppet/bin/rake -f /opt/puppet/share/puppet-dashboard/Rakefile RAILS_ENV=production \
-nodeclass:add[profile::cloudera::agent4_server_embedded,skip] \
-nodeclass:add[profile::cloudera::agent4_server_mysql,skip] \
-nodeclass:add[profile::cloudera::agent4_server_postgresql,skip] \
-nodeclass:add[profile::cloudera::agent5_server_embedded,skip] \
-nodeclass:add[profile::cloudera::agent5_server_mysql,skip] \
-nodeclass:add[profile::cloudera::agent5_server_postgresql,skip] \
-nodegroup:add[cm4_embedded,profile::cloudera::agent4_server_embedded,skip] \
-nodegroup:add[cm4_mysql,profile::cloudera::agent4_server_mysql,skip] \
-nodegroup:add[cm4_postgresql,profile::cloudera::agent4_server_postgresql,skip] \
-nodegroup:add[cm5_embedded,profile::cloudera::agent5_server_embedded,skip] \
-nodegroup:add[cm5_mysql,profile::cloudera::agent5_server_mysql,skip] \
-nodegroup:add[cm5_postgresql,profile::cloudera::agent5_server_postgresql,skip]
-
-/opt/puppet/bin/rake -f /opt/puppet/share/puppet-dashboard/Rakefile RAILS_ENV=production \
-nodeclass:add[profile::cloudera::agent5_noparcels_gplextras_cdh5,skip] \
-nodeclass:add[profile::cloudera::agent5_noparcels_gplextras_cdh4,skip] \
-nodegroup:add[cm5_noparcels_gplextras_cdh5,profile::cloudera::agent5_noparcels_gplextras_cdh5,skip] \
-nodegroup:add[cm5_noparcels_gplextras_cdh4,profile::cloudera::agent5_noparcels_gplextras_cdh4,skip]
-
-/opt/puppet/bin/puppet module install attachmentgenie/locales
-/opt/puppet/bin/rake -f /opt/puppet/share/puppet-dashboard/Rakefile RAILS_ENV=production \
-nodeclass:add[locales,skip] \
-nodegroup:add[debian,locales,skip] \
-nodeclass:add[apt,skip] \
-nodegroup:addclass[debian,apt,skip] \
-nodegroup:addclassparam[debian,apt,proxy_host,proxy] \
-nodegroup:addclassparam[debian,apt,proxy_port,3128] \
-node:add[debian6,debian,,skip] \
-node:addgroup[debian6,debian] \
-node:add[debian7,debian,,skip] \
-node:addgroup[debian7,debian] \
-node:add[ubuntu1004,debian,,skip] \
-node:addgroup[ubuntu1004,debian] \
-node:add[ubuntu1204,debian,,skip] \
-node:addgroup[ubuntu1204,debian] \
-node:add[ubuntu1404,debian,,skip] \
-node:addgroup[ubuntu1404,debian]
+nodeclass:add[profile::cloudera::agent4_server,skip] \
+nodeclass:add[profile::cloudera::agent4,skip] \
+nodeclass:add[profile::cloudera::agent5_server,skip] \
+nodeclass:add[profile::cloudera::agent5,skip] \
+nodegroup:add[cm4_server,profile::cloudera::agent4_server,skip] \
+nodegroup:add[cm4_agent,profile::cloudera::agent4,skip] \
+nodegroup:add[cm5_server,profile::cloudera::agent5_server,skip] \
+nodegroup:add[cm5_agent,profile::cloudera::agent5,skip]
 
 /opt/puppet/bin/puppet module install spiette/selinux
 /opt/puppet/bin/rake -f /opt/puppet/share/puppet-dashboard/Rakefile RAILS_ENV=production \
 nodeclass:add[selinux,skip] \
 nodegroup:add[redhat,selinux,skip] \
 nodegroup:addclassparam[redhat,selinux,mode,disabled] \
-node:add[centos5,redhat,,skip] \
-node:addgroup[centos5,redhat] \
-node:add[centos6,redhat,,skip] \
-node:addgroup[centos6,redhat]
+node:add[node1,redhat,,skip] \
+node:addgroup[node1,redhat] \
+node:add[node2,redhat,,skip] \
+node:addgroup[node2,redhat] \
+node:add[node3,redhat,,skip] \
+node:addgroup[node3,redhat] \
+node:add[node4,redhat,,skip] \
+node:addgroup[node4,redhat]
 else
   # PE >= 3.7.x
   /opt/puppet/bin/puppet config set basemodulepath /etc/puppetlabs/puppet/modules:/modules:/opt/puppet/share/puppet/modules --section main
-  mkdir -p /var/lib/hiera
-  echo -e "---\npuppet_enterprise::profile::master::java_args:\n  Xmx: 512m\n  Xms: 512m" >/var/lib/hiera/global.yaml
+  #mkdir -p /var/lib/hiera
+  #echo -e "---\ncloudera::cm5::autoupgrade: true" >/var/lib/hiera/global.yaml
   cat <<EOF >>/etc/puppetlabs/puppet/environments/production/manifests/site.pp
 # https://ask.puppetlabs.com/question/6640/warning-the-package-types-allow_virtual-parameter-will-be-changing-its-default-value-from-false-to-true-in-a-future-release/
 if versioncmp($::puppetversion,'3.6.1') >= 0 {
@@ -73,7 +48,6 @@ if versioncmp($::puppetversion,'3.6.1') >= 0 {
 }
 EOF
 
-  /opt/puppet/bin/puppet module install attachmentgenie/locales
   /opt/puppet/bin/puppet module install spiette/selinux
   service pe-puppetserver restart
   sleep 60
@@ -93,116 +67,35 @@ EOF
 #}' https://master:4433/classifier-api/v1/groups ; echo
 
 
-  #/opt/puppet/bin/rake -f /opt/puppet/share/puppet-dashboard/Rakefile RAILS_ENV=production \
-  #nodegroup:add[cm4_embedded,profile::cloudera::agent4_server_embedded,skip] \
-  #nodegroup:add[cm4_mysql,profile::cloudera::agent4_server_mysql,skip] \
-  #nodegroup:add[cm4_postgresql,profile::cloudera::agent4_server_postgresql,skip] \
-  #nodegroup:add[cm5_embedded,profile::cloudera::agent5_server_embedded,skip] \
-  #nodegroup:add[cm5_mysql,profile::cloudera::agent5_server_mysql,skip] \
-  #nodegroup:add[cm5_postgresql,profile::cloudera::agent5_server_postgresql,skip]
   curl $CURL_OPTS -H "Content-Type:application/json" -d '{
-    "name": "cm4_embedded",
+    "name": "cm4_server",
     "parent": "00000000-0000-4000-8000-000000000000",
     "classes": {
-      "profile::cloudera::agent4_server_embedded": {}
+      "profile::cloudera::agent4_server": {}
     }
   }' https://master:4433/classifier-api/v1/groups ; echo
   curl $CURL_OPTS -H "Content-Type:application/json" -d '{
-    "name": "cm4_mysql",
+    "name": "cm4_agent",
     "parent": "00000000-0000-4000-8000-000000000000",
     "classes": {
-      "profile::cloudera::agent4_server_mysql": {}
+      "profile::cloudera::agent4": {}
     }
   }' https://master:4433/classifier-api/v1/groups ; echo
   curl $CURL_OPTS -H "Content-Type:application/json" -d '{
-    "name": "cm4_postgresql",
+    "name": "cm5_server",
     "parent": "00000000-0000-4000-8000-000000000000",
     "classes": {
-      "profile::cloudera::agent4_server_postgresql": {}
+      "profile::cloudera::agent5_server": {}
     }
   }' https://master:4433/classifier-api/v1/groups ; echo
   curl $CURL_OPTS -H "Content-Type:application/json" -d '{
-    "name": "cm5_embedded",
+    "name": "cm5_agent",
     "parent": "00000000-0000-4000-8000-000000000000",
     "classes": {
-      "profile::cloudera::agent5_server_embedded": {}
-    }
-  }' https://master:4433/classifier-api/v1/groups ; echo
-  curl $CURL_OPTS -H "Content-Type:application/json" -d '{
-    "name": "cm5_mysql",
-    "parent": "00000000-0000-4000-8000-000000000000",
-    "classes": {
-      "profile::cloudera::agent5_server_mysql": {}
-    }
-  }' https://master:4433/classifier-api/v1/groups ; echo
-  curl $CURL_OPTS -H "Content-Type:application/json" -d '{
-    "name": "cm5_postgresql",
-    "parent": "00000000-0000-4000-8000-000000000000",
-    "classes": {
-      "profile::cloudera::agent5_server_postgresql": {}
+      "profile::cloudera::agent5": {}
     }
   }' https://master:4433/classifier-api/v1/groups ; echo
 
-  #/opt/puppet/bin/rake -f /opt/puppet/share/puppet-dashboard/Rakefile RAILS_ENV=production \
-  #nodegroup:add[cm5_noparcels_gplextras_cdh5,profile::cloudera::agent5_noparcels_gplextras_cdh5,skip] \
-  #nodegroup:add[cm5_noparcels_gplextras_cdh4,profile::cloudera::agent5_noparcels_gplextras_cdh4,skip]
-  curl $CURL_OPTS -H "Content-Type:application/json" -d '{
-    "name": "cm5_noparcels_gplextras_cdh4",
-    "parent": "00000000-0000-4000-8000-000000000000",
-    "classes": {
-      "profile::cloudera::agent5_noparcels_gplextras_cdh4": {}
-    }
-  }' https://master:4433/classifier-api/v1/groups ; echo
-  curl $CURL_OPTS -H "Content-Type:application/json" -d '{
-    "name": "cm5_noparcels_gplextras_cdh5",
-    "parent": "00000000-0000-4000-8000-000000000000",
-    "classes": {
-      "profile::cloudera::agent5_noparcels_gplextras_cdh5": {}
-    }
-  }' https://master:4433/classifier-api/v1/groups ; echo
-
-  #/opt/puppet/bin/rake -f /opt/puppet/share/puppet-dashboard/Rakefile RAILS_ENV=production \
-  #nodegroup:add[debian,locales,skip] \
-  #nodegroup:addclass[debian,apt,skip] \
-  #nodegroup:addclassparam[debian,apt,proxy_host,proxy] \
-  #nodegroup:addclassparam[debian,apt,proxy_port,3128] \
-  #node:add[debian6,debian,,skip] \
-  #node:addgroup[debian6,debian] \
-  #node:add[debian7,debian,,skip] \
-  #node:addgroup[debian7,debian] \
-  #node:add[ubuntu1004,debian,,skip] \
-  #node:addgroup[ubuntu1004,debian] \
-  #node:add[ubuntu1204,debian,,skip] \
-  #node:addgroup[ubuntu1204,debian] \
-  #node:add[ubuntu1404,debian,,skip] \
-  #node:addgroup[ubuntu1404,debian]
-  curl $CURL_OPTS -H "Content-Type:application/json" -d '{
-    "name": "debian",
-    "parent": "00000000-0000-4000-8000-000000000000",
-    "classes": {
-      "apt": {
-        "proxy_host": "proxy",
-        "proxy_port": "3128"
-      },
-      "locales": {}
-    },
-    "rule": [
-      "or",
-      [ "=", "name", "debian6" ],
-      [ "=", "name", "debian7" ],
-      [ "=", "name", "ubuntu1004" ],
-      [ "=", "name", "ubuntu1204" ],
-      [ "=", "name", "ubuntu1404" ]
-    ]
-  }' https://master:4433/classifier-api/v1/groups ; echo
-
-  #/opt/puppet/bin/rake -f /opt/puppet/share/puppet-dashboard/Rakefile RAILS_ENV=production \
-  #nodegroup:add[redhat,selinux,skip] \
-  #nodegroup:addclassparam[redhat,selinux,mode,disabled] \
-  #node:add[centos5,redhat,,skip] \
-  #node:addgroup[centos5,redhat] \
-  #node:add[centos6,redhat,,skip] \
-  #node:addgroup[centos6,redhat]
   curl $CURL_OPTS -H "Content-Type:application/json" -d '{
     "name": "redhat",
     "parent": "00000000-0000-4000-8000-000000000000",
@@ -213,8 +106,11 @@ EOF
     },
     "rule": [
       "or",
-      [ "=", "name", "centos5" ],
-      [ "=", "name", "centos6" ]
+      [ "=", "name", "master" ],
+      [ "=", "name", "node1" ],
+      [ "=", "name", "node2" ],
+      [ "=", "name", "node3" ],
+      [ "=", "name", "node4" ]
     ]
   }' https://master:4433/classifier-api/v1/groups ; echo
 fi

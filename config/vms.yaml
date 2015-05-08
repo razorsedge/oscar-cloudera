@@ -1,38 +1,23 @@
 ---
 vms:
 - name: master
-  box: puppetlabs/centos-6.6-64-nocm
-  roles:
-  - pe-puppet-master
-- name: centos5
-  box: puppetlabs/centos-5.11-64-nocm
-  roles:
-  - centos
-- name: centos6
-  box: puppetlabs/centos-6.6-64-nocm
-  roles:
-  - centos
-- name: debian6
-  box: puppetlabs/debian-6.0.10-64-nocm
-  roles:
-  - pe-puppet-agent
-- name: debian7
-  box: puppetlabs/debian-7.8-64-nocm
-  roles:
-  - pe-puppet-agent
-- name: sles11
-  box: sles-11sp1-x64-vbox4210-nocm
-  roles:
-  - sles
-- name: ubuntu1004
-  box: ubuntu-server-10044-x64-vbox4210-nocm
-  roles:
-  - pe-puppet-agent
-- name: ubuntu1204
-  box: puppetlabs/ubuntu-12.04-64-nocm
-  roles:
-  - pe-puppet-agent
-- name: ubuntu1404
-  box: puppetlabs/ubuntu-14.04-64-nocm
-  roles:
-  - pe-puppet-agent
+  #box: puppetlabs/centos-6.6-64-nocm
+  box: chef/centos-6.6
+  roles: [ "pe_puppet_master", "centos", "base_2_cpus", "base_6gb_ram" ]
+  #roles: [ "base_6gb_ram", "base_2_cpus", "centos", "pe_puppet_master" ]
+- name: node1
+  box: chef/centos-6.6
+  roles: [ "cm_server", "pe_puppet_agent", "centos", "base_2_cpus", "base_6gb_ram" ]
+  #roles: [ "base_6gb_ram", "base_2_cpus", "centos", "pe_puppet_agent", "cm_server" ]
+- name: node2
+  box: chef/centos-6.6
+  roles: [ "pe_puppet_agent", "centos", "base_2_cpus", "base_6gb_ram" ]
+  #roles: [ "base_6gb_ram", "base_2_cpus", "centos", "pe_puppet_agent" ]
+- name: node3
+  box: chef/centos-6.6
+  roles: [ "pe_puppet_agent", "centos", "base_2_cpus", "base_6gb_ram" ]
+  #roles: [ "base_6gb_ram", "base_2_cpus", "centos", "pe_puppet_agent" ]
+- name: node4
+  box: chef/centos-6.6
+  roles: [ "pe_puppet_agent", "centos", "base_2_cpus", "base_6gb_ram" ]
+  #roles: [ "base_6gb_ram", "base_2_cpus", "centos", "pe_puppet_agent" ]

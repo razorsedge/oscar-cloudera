@@ -1,0 +1,5 @@
+---
+cloudera::cm5::autoupgrade: true
+ntp::servers:
+  - time
+ntp::iburst_enable: true
